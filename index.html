@@ -1,196 +1,39 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GeoGuessr-Turnier-Duo Version</title>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        body {
-            font-family: 'Raleway', sans-serif;
-            background: url('/mnt/data/image.png') no-repeat center center/cover;
-            color: white;
-            overflow-x: hidden;
-        }
-        header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            padding: 20px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-        }
-        header h1 {
-            font-size: 24px;
-            font-weight: 700;
-        }
-        .hero {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            animation: fadeIn 2s ease-in-out;
-            background: rgba(0,0,0,0.4);
-            padding: 20px;
-        }
-        .hero h2 {
-            font-size: 48px;
-            font-weight: 700;
-            animation: slideInDown 1.2s ease-in-out;
-        }
-        .hero p {
-            font-size: 18px;
-            margin-top: 10px;
-            max-width: 600px;
-            animation: fadeIn 2.5s ease-in-out;
-        }
-        .menu-buttons {
-            margin-top: 30px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            animation: slideInUp 1.5s ease-in-out;
-            width: 100%;
-            max-width: 300px;
-        }
-        button {
-            padding: 15px 25px;
-            font-size: 18px;
-            border: none;
-            border-radius: 8px;
-            background: #7f8c8d;
-            color: white;
-            cursor: pointer;
-            transition: transform 0.3s, background 0.3s;
-        }
-        button:hover {
-            transform: translateY(-3px);
-            background: #636e72;
-        }
-        .section {
-            padding: 80px 20px;
-            background: rgba(0, 0, 0, 0.75);
-            text-align: center;
-            animation: fadeInUp 1.5s ease-in-out;
-        }
-        .section img {
-            width: 90%;
-            max-width: 800px;
-            border-radius: 12px;
-            margin: 20px 0;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-        }
-        iframe {
-            width: 100%;
-            height: 700px;
-            border-radius: 10px;
-            margin-top: 20px;
-        }
-        .back-btn {
-            margin-top: 20px;
-            background: #636e72;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        @keyframes slideInDown {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        @keyframes slideInUp {
-            from { transform: translateY(50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @media (max-width: 768px) {
-            .hero h2 {
-                font-size: 32px;
-            }
-            .hero p {
-                font-size: 16px;
-            }
-            header h1 {
-                font-size: 18px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GeoGuessr-Turnier 2</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background-color: #000;
+    }
+    .embed-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+    .embed-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>GeoGuessr Turnier</h1>
-    </header>
-
-    <section class="hero">
-        <h2>GeoGuessr-Turnier-Duo Version</h2>
-        <p>GeoGuessr ist ein spannendes Online-Spiel, bei dem du anhand von Street-View-Bildern deinen Standort auf der Weltkarte erraten musst. Je näher du bist, desto mehr Punkte!</p>
-        <div class="menu-buttons">
-            <button onclick="showPage('tournament')">🏆 Zum Turnierplan</button>
-            <button onclick="showPage('settings')">⚙️ Einstellungen</button>
-        </div>
-    </section>
-
-    <section id="tournament" class="section" style="display:none;">
-        <h2>Turnierplan</h2>
-        <iframe id="tournamentFrame" src="https://challonge.com/de/6gwhz1b5/module" frameborder="0"></iframe>
-        <br>
-        <button onclick="reloadTournament()">🔄 Seite aktualisieren</button>
-        <button class="back-btn" onclick="showPage('home')">← Zurück</button>
-    </section>
-
-    <section id="settings" class="section" style="display:none;">
-        <h2>Einstellungen</h2>
-        <p>Gestalte deine GeoGuessr-Erfahrung individuell! Du kannst den Hintergrund ändern oder dein eigenes Bild hochladen.</p>
-        <button onclick="changeBackground('#f4f4f4')">Heller Hintergrund</button>
-        <button onclick="changeBackground('#333', 'white')">Dunkler Hintergrund</button>
-        <br><br>
-        <input type="file" accept="image/*" onchange="uploadBackground(event)">
-        <button class="back-btn" onclick="showPage('home')">← Zurück</button>
-    </section>
-
-    <script>
-        function showPage(page) {
-            document.querySelector('.hero').style.display = page === 'home' ? 'flex' : 'none';
-            document.getElementById('tournament').style.display = page === 'tournament' ? 'block' : 'none';
-            document.getElementById('settings').style.display = page === 'settings' ? 'block' : 'none';
-        }
-
-        function changeBackground(color, textColor = 'black') {
-            document.body.style.background = color;
-            document.body.style.color = textColor;
-        }
-
-        function uploadBackground(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.body.style.background = `url(${e.target.result}) no-repeat center center/cover`;
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        function reloadTournament() {
-            const iframe = document.getElementById('tournamentFrame');
-            iframe.src = iframe.src;
-        }
-    </script>
+  <div class="embed-container">
+    <iframe
+      src="https://www.canva.com/design/DAGoxG40BQ0/PHelmmS1evpbnQESHdOUSw/view?embed"
+      allowfullscreen
+      loading="lazy">
+    </iframe>
+  </div>
 </body>
 </html>
